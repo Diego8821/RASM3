@@ -1,8 +1,9 @@
 	.global _start
 .data
-instr:	.asciz	"This is our Test String that we will convert.\n"
+instr:	.asciz	"This is our Test String we are outputing.\n"
 incmp:	.asciz  "Find my orc\n"
-chFind:		.asciz	"o\n"
+chFind:		.asciz	"o"
+chReplace:	.asciz  "a"
 szNL:	.asciz	"\n"
 outstr:		.skip 	24
 chLF:	.byte 0xa
@@ -38,6 +39,10 @@ _start:
 	//Print index
 	ldr x0,=outstr
 	bl putstring
+	
+	//Print "\n"
+	ldr x0,=szNL
+	bl putstring
 //===============================
 //ofindex2
 	ldr x0,=instr
@@ -54,6 +59,10 @@ _start:
 	//Print index
 	ldr x0,=outstr
 	bl putstring
+	
+		//Print "\n"
+	ldr x0,=szNL
+	bl putstring
 //===============================
 //ofIndex3
 	ldr x0,=instr
@@ -68,6 +77,10 @@ _start:
 	
 	//Print index
 	ldr x0,=outstr
+	bl putstring
+	
+	//Print "\n"
+	ldr x0,=szNL
 	bl putstring
 //===============================
 //lastOfIndex1
@@ -84,6 +97,10 @@ _start:
 	//Print index
 	ldr x0,=outstr
 	bl putstring
+	
+		//Print "\n"
+	ldr x0,=szNL
+	bl putstring
 //===============================
 //lastOfIndex2
 	ldr x0,=instr
@@ -98,6 +115,10 @@ _start:
 	
 	//Print index
 	ldr x0,=outstr
+	bl putstring
+	
+	//Print "\n"
+	ldr x0,=szNL
 	bl putstring
 //===============================
 //lastOfIndex3
@@ -114,27 +135,40 @@ _start:
 	//Print index
 	ldr x0,=outstr
 	bl putstring
+	
+	//Print "\n"
+	ldr x0,=szNL
+	bl putstring
 //===============================
 //String_concat
 	ldr x0,=instr
 	bl String_length
-	mov x2,x0		//x2 = x0(size of string)
+	mov x2, x0
+	//ldr x1,=incmp
+	//bl String_length
+	add x2, x2, #20
 	
 	ldr x0,=instr
 	ldr x1,=incmp
-	bl String_concat
-    bl putstring
-    
-    ldr x0,=chLF
-    bl putch
-    
-    ldr x0,=ptrString
-    ldr x0,[x0]
-    bl free
+	bl String_concat //(x0=*instr, x1 =*incmp, x2=sizeArray)
     
 	//When done move value of x10 to x0
-	mov x9, x10
-	mov x0, x9
+	//mov x9, x10
+	//mov x0, x9
+//===============================
+//String_replace
+	ldr x0,=instr
+	bl String_length
+	mov x3, x0
+	//ldr x1,=incmp
+	//bl String_length
+	add x3, x3, #20
+	
+	ldr x0,=instr
+	ldr x1,=chFind
+	ldr x2,=chReplace
+	bl String_replace //(x0=*instr, x1 =*chFind, x2=*chReplace, x3=sizeString)
+
 	
 	mov x0,#0
 	mov x8,#93
