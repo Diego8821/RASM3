@@ -1,0 +1,168 @@
+//Programmer: Diego Rojas
+
+
+	.data
+	
+sz1:		.asciz		"Cat in the hat."
+sz2:		.asciz		"Green eggs and ham."
+sz3:		.asciz		"cat in the hat."	
+sz4:		.asciz		"caT iN tHe Hat."
+sz5:		.space 	20	//destination string buffer
+
+sztest1:	.space 20
+sztest2:	.space 20
+
+szResult:	.skip 		21
+
+szOutputL:	.asciz			"String Length = "
+sztrue:		.asciz			"true"
+szfalse:	.asciz			"false"
+
+chLF:		.byte 		0xa
+
+	.text
+	.global _start
+	
+_start:
+
+/*
+@1
+	ldr	x0,= sz1
+	ldr x1,= sz3
+	
+	//call string_equals function
+	BL String_equals
+	//bl String_equalsIgnoreCase
+	
+	//if
+	cmp x0, #1
+	b.eq equal
+	
+	//else
+	cmp x0, #0
+	b notEqual
+	
+equal:
+	//strings are equal
+	ldr x0,=sztrue
+	bl putstring 
+	
+	b end
+	
+notEqual:
+	ldr x0,=szfalse
+	bl putstring
+	
+	b end
+*/
+
+
+
+/*
+@2
+//_________________________________________________________
+//FOR String_equalsIgnoreCase 
+
+//convert string 1 toupper and str into new string
+	ldr x0,=sz1
+    ldr x1,=sztest1
+    bl String_toUpperCase
+    
+    //ldr x0,=sztest1
+    //bl putstring
+    
+//convert string 2 toupper and str into new string
+	ldr x0,=sz2
+    ldr x1,=sztest2
+    bl String_toUpperCase
+    
+    //cmp them
+    ldr x0,= sztest1
+    ldr x1,=sztest1
+    
+    bl String_equals //call String_equals to cmp the new strings
+    
+    //ldr x0,=sztest2
+    //bl putstring
+    
+    //string_equals x0 saved register
+    //if
+	cmp x0, #1
+	b.eq equal
+	
+	//else
+	cmp x0, #0
+	b notEqual
+	
+equal:
+	//strings are equal
+	ldr x0,=sztrue
+	bl putstring 
+	b end
+	
+notEqual:
+	ldr x0,=szfalse
+	bl putstring
+	b end
+    
+    
+b end
+//_________________________________________________________
+*/
+
+
+/______________________________________________________________
+@3
+//TEST CASE FOR STRING_COPY
+
+	//ldr	x0,= sz1
+	//ldr x1,= sz5
+	
+	//call string_equals function
+	//bl String_copy
+	
+	//sxtw x0, w0		//convert 32 bit result back into int64
+	//ldr x0,= sz5
+	//bl int64asc		//convert int64 to ascii
+	
+	//output szSum into string
+	//LDR x0,=sz5			//point to szSum
+	//BL putstring			//output the string from szSum
+	
+	//b end
+//______________________________________________________________
+
+
+
+
+/*
+//______________________________________________________________
+@5
+//TEST CASE FOR String_substring_2
+
+	ldr x0,=sz1
+	mov x1, #7
+	
+	
+	bl String_substring_2
+	bl putstring
+	
+	b end
+
+
+//______________________________________________________________
+*/
+
+
+
+
+
+
+end:
+	//terminate program
+	//parameters to exit thr program
+	//then call linux to do it
+
+	mov	x0, #0
+	mov	x8, #93
+	svc	0
